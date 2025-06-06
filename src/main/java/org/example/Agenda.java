@@ -4,45 +4,74 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Clase que representa una agenda que contiene una lista de personas
+ * y métodos para añadir, eliminar o modificar los contactos.
+ */
 public class Agenda {
-    private List<Contacto> contacts; // Lista de Contacto
+    /**
+     * Lista de personas almacenadas en la agenda.
+     */
+    private List<Persona> contacts;
 
+    /**
+     * Constructor que inicializa una agenda vacía.
+     */
     public Agenda() {
         this.contacts = new ArrayList<>();
     }
 
+    /**
+     * Añade un contacto nuevo a la agenda o añade un teléfono
+     * a un contacto existente si ya está registrado.
+     *
+     * @param name  Nombre del contacto.
+     * @param phone Número de teléfono a añadir.
+     */
     public void addContact(String name, String phone) {
         boolean exists = false;
-        for (Contacto c : contacts) {
-            if (c.getName().equalsIgnoreCase(name)) {
+        for (Persona p : contacts) {
+            if (p.getName().equalsIgnoreCase(name)) {
                 exists = true;
-                c.getPhones().add(phone);
+                p.getPhones().add(phone);
                 break;
             }
         }
 
         if (!exists) {
-            Contacto newContact = new Contacto(name, phone);
+            Persona newContact = new Persona(name, phone);
             contacts.add(newContact);
         }
     }
 
+    /**
+     * Elimina un contacto de la agenda según su nombre.
+     *
+     * @param name Nombre del contacto a eliminar.
+     */
     public void removeContact(String name) {
-        Iterator<Contacto> it = contacts.iterator();
+        Iterator<Persona> it = contacts.iterator();
 
         while (it.hasNext()) {
-            Contacto c = it.next();
+            Persona p = it.next();
 
-            if (c.getName().equalsIgnoreCase(name)) {
+            if (p.getName().equalsIgnoreCase(name)) {
                 it.remove();
             }
         }
     }
 
+    /**
+     * Modifica el número de teléfono de un contacto específico.
+     *
+     * @param name     Nombre del contacto.
+     * @param oldPhone Teléfono que se desea reemplazar.
+     * @param newPhone Nuevo número de teléfono.
+     */
     public void modifyPhoneNumber(String name, String oldPhone, String newPhone) {
-        for (Contacto c : contacts) {
-            if (c.getName().equalsIgnoreCase(name)) {
-                List<String> phones = c.getPhones();
+        for (Persona p : contacts) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                List<String> phones = p.getPhones();
 
                 int index = phones.indexOf(oldPhone);
 
@@ -53,7 +82,12 @@ public class Agenda {
         }
     }
 
-    public List<Contacto> getContacts() {
+    /**
+     * Obtiene la lista completa de contactos en la agenda.
+     *
+     * @return Lista de personas.
+     */
+    public List<Persona> getContacts() {
         return this.contacts;
     }
 }
